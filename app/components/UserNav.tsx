@@ -1,7 +1,8 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { CreditCard, Home, Settings } from "lucide-react";
+import { CreditCard, DoorClosed, Home, Settings } from "lucide-react";
+import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import Link from "next/link";
 
 export const navItem= [
@@ -44,6 +45,17 @@ export function UserNav() {
                         </DropdownMenuItem>
                     ))}
                 </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+
+                <DropdownMenuItem className="w-full justify-between items-center" asChild>
+                    <LogoutLink>
+                    Logout{""}
+                    <span>
+                        <DoorClosed className="w-4 h-4"/>
+                    </span>
+
+                    </LogoutLink>
+                </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
     );
