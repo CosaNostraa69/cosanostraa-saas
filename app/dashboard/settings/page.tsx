@@ -1,3 +1,4 @@
+import { SubmitButton } from "@/app/components/Submitbuttons";
 import prisma from "@/app/lib/db";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
-async function getData(userId: string){
+async function getData(userId: string) {
     const data = await prisma.user.findUnique({
         where: {
             id: userId,
@@ -26,7 +27,7 @@ export default async function SettingsPage() {
     const user = await getUser();
     const data = await getData(user?.id as string);
 
-    async function postData(formData:FormData) {
+    async function postData(formData: FormData) {
         "use server";
 
         const name = formData.get('name') as string;
@@ -40,7 +41,7 @@ export default async function SettingsPage() {
                 name: name ?? undefined,
                 colorScheme: colorScheme ?? undefined,
             },
-        
+
         })
     }
 
@@ -92,7 +93,7 @@ export default async function SettingsPage() {
                                 <Label>Color Scheme</Label>
                                 <Select name="color" defaultValue={data?.colorScheme}>
                                     <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Select a color"/>
+                                        <SelectValue placeholder="Select a color" />
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectGroup>
@@ -107,9 +108,7 @@ export default async function SettingsPage() {
 
                     </CardContent>
                     <CardFooter>
-                        <Button>
-                            Save now
-                        </Button>
+                        <SubmitButton />
                     </CardFooter>
                 </form>
 
