@@ -26,6 +26,17 @@ async function getData({
             stripeCustomerId: true,
         },
     });
+
+    if(!user){
+        const name = `${firstName ?? ``} ${lastName ?? ``}`;
+        await prisma.user.create({
+            data: {
+                id: id,
+                email: email,
+                name: name,
+            },
+        });
+    }
 }
 
 
@@ -35,6 +46,12 @@ export default async function DashboardLayout({children}: {children: ReactNode})
     if (!user){
         return redirect("/");
     }
+    await getData({
+        email: user.email as string, 
+        firstName: user.given_name as string, 
+        id: user.id as string, 
+        lastName: user.family_name as string, profileImage: user.picture,
+    });
 
 
     return (
