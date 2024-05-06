@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { revalidatePath } from "next/cache";
 
 async function getData(userId: string) {
     const data = await prisma.user.findUnique({
@@ -42,7 +43,9 @@ export default async function SettingsPage() {
                 colorScheme: colorScheme ?? undefined,
             },
 
-        })
+        });
+
+        revalidatePath('/', "layout");
     }
 
     return (
@@ -99,7 +102,7 @@ export default async function SettingsPage() {
                                         <SelectGroup>
                                             <SelectLabel>Color</SelectLabel>
                                             <SelectItem value="theme-green">Green</SelectItem>
-                                            <SelectItem value="theme-blue">Blue</SelectItem> <SelectItem value="theme-violet">Violet</SelectItem> <SelectItem value="theme-yellow">Yellow</SelectItem> <SelectItem value="theme-red">Red</SelectItem> <SelectItem value="theme-orange">Orange</SelectItem> <SelectItem value="theme-pink">Pink</SelectItem>
+                                            <SelectItem value="theme-blue">Blue</SelectItem> <SelectItem value="theme-violet">Violet</SelectItem> <SelectItem value="theme-yellow">Yellow</SelectItem> <SelectItem value="theme-red">Red</SelectItem> <SelectItem value="theme-orange">Orange</SelectItem> <SelectItem value="theme-rose">Pink</SelectItem>
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>
