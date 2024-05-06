@@ -25,6 +25,25 @@ export default async function SettingsPage() {
     const { getUser } = getKindeServerSession();
     const user = await getUser();
     const data = await getData(user?.id as string);
+
+    async function postData(formData:FormData) {
+        "use server";
+
+        const name = formData.get('name') as string;
+        const colorScheme = formData.get('color') as string;
+
+        await prisma.user.update({
+            where: {
+                id: user?.id,
+            },
+            data: {
+                name: name ?? undefined,
+                colorScheme: colorScheme ?? undefined,
+            },
+        
+        })
+    }
+
     return (
         <div className="grid items-start gap-8">
             <div className="flex items-center justify-between px-2">
@@ -37,7 +56,7 @@ export default async function SettingsPage() {
             </div>
 
             <Card>
-                <form>
+                <form action={postData}>
                     <CardHeader>
                         <CardTitle>General Data
                         </CardTitle>
