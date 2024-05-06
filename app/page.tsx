@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { ThemeToggle } from "./components/Themetoggle";
 import { Button } from "@/components/ui/button";
+import { RegisterLink } from "@kinde-oss/kinde-auth-nextjs/components";
 
 export default function Home() {
   return (
@@ -17,7 +17,9 @@ export default function Home() {
           </p>
         </div>
         <div className="flex justify-center max-w-sm mx-auto mt-10">
-    <Button size="lg" className="w-full">Sign Up For Free</Button>
+          <RegisterLink>
+            <Button size="lg" className="w-full">Sign Up For Free</Button>        
+            </RegisterLink>
         </div>
       </div>
     </section>
