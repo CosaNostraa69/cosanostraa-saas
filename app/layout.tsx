@@ -5,7 +5,7 @@ import { ThemeProvider } from "./components/theme-provider";
 import { Navbar } from "./components/Navbar";
 import prisma from "./lib/db";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-
+import { unstable_noStore as noStore } from "next/cache";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,9 +15,9 @@ export const metadata: Metadata = {
 };
 
 async function getData(userId: string) {
-  let data;
+  noStore();
   if (userId) {
-    data = await prisma.user.findUnique({
+    const data = await prisma.user.findUnique({
       where: {
         id: userId,
       },
@@ -25,8 +25,8 @@ async function getData(userId: string) {
         colorScheme: true,
       },
     });
+    return data;
   }
-  return data;
 }
 
 export default async function RootLayout({
@@ -35,11 +35,13 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const { getUser } = getKindeServerSession();
-  const user = await getUser()
+  const user = await getUser();
   const data = await getData(user?.id as string);
   return (
     <html lang="en">
-      <body className={`${inter.className} ${data?.colorScheme ?? "theme-red" }`}>
+      <body
+        className={`${inter.className} ${data?.colorScheme ?? "theme-orange"}`}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
