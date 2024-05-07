@@ -7,34 +7,35 @@ import { Card } from "@/components/ui/card";
 
 import { TrashDelete } from "../components/Submitbuttons";
 import { revalidatePath, unstable_noStore as noStore } from "next/cache";
+import { DownloadPDFButton } from "../components/DownloadPDFButton";
 
 async function getData(userId: string) {
-    noStore();
-    const data = await prisma.user.findUnique({
-        where: {
-            id: userId,
-        },
+  noStore();
+  const data = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+    select: {
+      Notes: {
         select: {
-            Notes: {
-                select: {
-                    title: true,
-                    id: true,
-                    description: true,
-                    createdAt: true,
-                },
-                orderBy: {
-                    createdAt: "desc",
-                },
-            },
-            subscriptions: {
-                select: {
-                    status: true,
-                },
-            },
+          title: true,
+          id: true,
+          description: true,
+          createdAt: true,
         },
-    });
+        orderBy: {
+          createdAt: "desc",
+        },
+      },
+      subscriptions: {
+        select: {
+          status: true,
+        },
+      },
+    },
+  });
 
-    return data;
+  return data;
 }
 
 export default async function DashboardPage() {
@@ -128,6 +129,7 @@ export default async function DashboardPage() {
                   <input type="hidden" name="noteId" value={item.id} />
                   <TrashDelete />
                 </form>
+                <DownloadPDFButton noteId={item.id} />
               </div>
             </Card>
           ))}
