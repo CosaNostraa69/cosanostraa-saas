@@ -18,10 +18,10 @@ import {
 import { unstable_noStore as noStore } from "next/cache";
 
 const featureItems = [
-  { name: "Lorem Ipsum something" },
-  { name: "Lorem Ipsum something" },
-  { name: "Lorem Ipsum something" },
-  { name: "Lorem Ipsum something" },
+  { name: "Unlimited number of notes" },
+  { name: "Collaborative notes with your friends" },
+  { name: "Reminder notifications" },
+  { name: "AI help with writing notes" },
   { name: "Lorem Ipsum something" },
 ];
 
