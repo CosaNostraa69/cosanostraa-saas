@@ -1,3 +1,6 @@
+// app/dashboard/new/page.tsx
+'use client';
+
 import { SubmitButton } from "@/app/components/Submitbuttons";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,37 +14,36 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
-import prisma from "@/app/lib/db";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import { redirect } from "next/navigation";
-import { unstable_noStore as noStore } from "next/cache";
 import { Textarea } from "@/components/ui/textarea";
+import { useSearchParams } from "next/navigation";
+import { postData } from "./postData";
+import { getUserAction } from "./getUserAction";
 
-export default async function NewNoteRoute() {
-  noStore();
-  const { getUser } = getKindeServerSession();
-  const user = await getUser();
+export default function NewNoteRoute() {
+  const searchParams = useSearchParams();
+  const shouldGenerate = searchParams.get("generate");
 
-  async function postData(formData: FormData) {
-    "use server";
-    if (!user) {
-      throw new Error("Not authorized");
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (shouldGenerate) {
+      const res = await fetch("/api/notes/generate", {
+        method: "POST",
+      });
+
+      if (res.ok) {
+        window.location.href = "/dashboard";
+      }
+    } else {
+      const formData = new FormData(event.currentTarget);
+      const user = await getUserAction();
+      await postData(formData, user);
     }
-    const title = formData.get("title") as string;
-    const description = formData.get("description") as string;
-    await prisma.note.create({
-      data: {
-        userId: user?.id,
-        description: description,
-        title: title,
-      },
-    });
-    return redirect("/dashboard");
   }
 
   return (
     <Card>
-      <form action={postData}>
+      <form onSubmit={handleSubmit}>
         <CardHeader>
           <CardTitle>New Note</CardTitle>
           <CardDescription>
