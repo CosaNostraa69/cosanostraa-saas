@@ -10,12 +10,12 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import Link from "next/link";
 import prisma from "@/app/lib/db";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { redirect } from "next/navigation";
 import { unstable_noStore as noStore } from "next/cache";
+import { Textarea } from "@/components/ui/textarea";
 
 export default async function NewNoteRoute() {
   noStore();
@@ -24,14 +24,11 @@ export default async function NewNoteRoute() {
 
   async function postData(formData: FormData) {
     "use server";
-
     if (!user) {
       throw new Error("Not authorized");
     }
-
     const title = formData.get("title") as string;
     const description = formData.get("description") as string;
-
     await prisma.note.create({
       data: {
         userId: user?.id,
@@ -39,7 +36,6 @@ export default async function NewNoteRoute() {
         title: title,
       },
     });
-
     return redirect("/dashboard");
   }
 
@@ -62,7 +58,6 @@ export default async function NewNoteRoute() {
               placeholder="Title for your note"
             />
           </div>
-
           <div className="flex flex-col gap-y-2">
             <Label>Description</Label>
             <Textarea
@@ -72,7 +67,6 @@ export default async function NewNoteRoute() {
             />
           </div>
         </CardContent>
-
         <CardFooter className="flex justify-between">
           <Button asChild variant="destructive">
             <Link href="/dashboard">Cancel</Link>

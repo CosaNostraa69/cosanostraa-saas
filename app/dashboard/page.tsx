@@ -66,15 +66,24 @@ export default async function DashboardPage() {
           </p>
         </div>
 
-        {data?.subscriptions?.status === "active" ? (
-          <Button asChild>
-            <Link href="/dashboard/new">Create a new Note</Link>
-          </Button>
-        ) : (
-          <Button asChild>
-            <Link href="/dashboard/billing">Create a new Note</Link>
-          </Button>
-        )}
+        <div className="flex gap-x-4">
+          {data?.subscriptions?.status === "active" ? (
+            <>
+              <Button asChild>
+                <Link href="/dashboard/new">Create a new Note</Link>
+              </Button>
+              <Button asChild>
+                <Link href="/dashboard/new?generate=true">
+                  Generate a Note with AI
+                </Link>
+              </Button>
+            </>
+          ) : (
+            <Button asChild>
+              <Link href="/dashboard/billing">Create a new Note</Link>
+            </Button>
+          )}
+        </div>
       </div>
 
       {data?.Notes.length == 0 ? (
@@ -91,15 +100,24 @@ export default async function DashboardPage() {
             can see them right here.
           </p>
 
-          {data?.subscriptions?.status === "active" ? (
-            <Button asChild>
-              <Link href="/dashboard/new">Create a new Note</Link>
-            </Button>
-          ) : (
-            <Button asChild>
-              <Link href="/dashboard/billing">Create a new Note</Link>
-            </Button>
-          )}
+          <div className="flex gap-x-4">
+            {data?.subscriptions?.status === "active" ? (
+              <>
+                <Button asChild>
+                  <Link href="/dashboard/new">Create a new Note</Link>
+                </Button>
+                <Button asChild>
+                  <Link href="/dashboard/new?generate=true">
+                    Generate a Note with AI
+                  </Link>
+                </Button>
+              </>
+            ) : (
+              <Button asChild>
+                <Link href="/dashboard/billing">Create a new Note</Link>
+              </Button>
+            )}
+          </div>
         </div>
       ) : (
         <div className="flex flex-col gap-y-4">
