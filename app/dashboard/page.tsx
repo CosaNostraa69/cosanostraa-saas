@@ -74,9 +74,7 @@ export default async function DashboardPage() {
                 <Link href="/dashboard/new">Create a new Note</Link>
               </Button>
               <Button asChild>
-                <Link href="/dashboard/new?generate=true">
-                  Generate a Note with AI
-                </Link>
+                <Link href="/dashboard/new-ai">Generate a Note with AI</Link>
               </Button>
             </>
           ) : (
@@ -108,9 +106,7 @@ export default async function DashboardPage() {
                   <Link href="/dashboard/new">Create a new Note</Link>
                 </Button>
                 <Button asChild>
-                  <Link href="/dashboard/new?generate=true">
-                    Generate a Note with AI
-                  </Link>
+                  <Link href="/dashboard/new-ai">Generate a Note with AI</Link>
                 </Button>
               </>
             ) : (

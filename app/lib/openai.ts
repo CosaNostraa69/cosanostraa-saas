@@ -1,9 +1,9 @@
-import openai from "openai";
+import { Configuration, OpenAIApi } from "openai";
 
-const configuration = new openai.Configuration({
+const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-const openaiApi = new openai.OpenAIApi(configuration);
+const openai = new OpenAIApi(configuration);
 
-export default openaiApi;
+export default openai;
