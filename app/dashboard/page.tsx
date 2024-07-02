@@ -27,7 +27,7 @@ async function getData(userId: string) {
           createdAt: "desc",
         },
       },
-      subscriptions: {
+      Subscription: {
         select: {
           status: true,
         },
@@ -68,7 +68,7 @@ export default async function DashboardPage() {
         </div>
 
         <div className="flex gap-x-4">
-          {data?.subscriptions?.status === "active" ? (
+          {data?.Subscription?.status === "active" ? (
             <>
               <Button asChild>
                 <Link href="/dashboard/new">Create a new Note</Link>
@@ -100,7 +100,7 @@ export default async function DashboardPage() {
           </p>
 
           <div className="flex gap-x-4">
-            {data?.subscriptions?.status === "active" ? (
+            {data?.Subscription?.status === "active" ? (
               <>
                 <Button asChild>
                   <Link href="/dashboard/new">Create a new Note</Link>

@@ -14,8 +14,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
-import { generateNote } from "../new/generateNote";
 import { redirect } from "next/navigation";
+import { generateNote } from "../new/generateNote";
 
 export default function NewAINoteRoute() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -23,10 +23,23 @@ export default function NewAINoteRoute() {
 
     const formData = new FormData(event.currentTarget);
     const prompt = formData.get("prompt") as string;
-    const note = await generateNote(prompt);
 
-    if (note) {
-      redirect("/dashboard");
+    if (prompt) {
+      try {
+        const note = await generateNote(prompt);
+
+        if (note) {
+          redirect("/dashboard");
+        } else {
+          // Gérer le cas où la génération de note a échoué
+          console.error("Échec de la génération de note");
+        }
+      } catch (error) {
+        console.error("Erreur lors de la génération de note :", error);
+      }
+    } else {
+      // Gérer le cas où le champ de saisie est vide
+      console.error("Le champ de saisie est vide");
     }
   }
 
@@ -41,10 +54,11 @@ export default function NewAINoteRoute() {
         </CardHeader>
         <CardContent className="flex flex-col gap-y-5">
           <div className="gap-y-2 flex flex-col">
-            <Label>Prompt</Label>
+            <Label htmlFor="prompt">Prompt</Label>
             <Input
               required
               type="text"
+              id="prompt"
               name="prompt"
               placeholder="Enter keywords or a short phrase"
             />
@@ -54,7 +68,7 @@ export default function NewAINoteRoute() {
           <Button asChild variant="destructive">
             <Link href="/dashboard">Cancel</Link>
           </Button>
-          <SubmitButton>Generate Note</SubmitButton>
+          <SubmitButton/>
         </CardFooter>
       </form>
     </Card>

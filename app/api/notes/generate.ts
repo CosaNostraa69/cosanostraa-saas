@@ -2,21 +2,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import openai from "../../lib/openai";
 import prisma from "../../lib/db";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 export async function POST(request: NextRequest) {
-  const { getUser } = getKindeServerSession();
-  const user = await getUser();
-  
-  if (!user) {
-    return NextResponse.json({ error: "Not authorized" }, { status: 401 });
-  }
-
-  const prompt = "Générer un titre et une description pour une nouvelle note";
+  const { prompt, userId } = await request.json();
 
   const response = await openai.createCompletion({
-    model: "text-davinci-003",
-    prompt: prompt,
+    model: "text-davinci-002",  // Utilisez un modèle pris en charge
+    prompt: `Generate a title and description for a note based on the following prompt: ${prompt}`,
     max_tokens: 150,
     n: 1,
     stop: null,
@@ -26,13 +18,5 @@ export async function POST(request: NextRequest) {
   const generatedText = response.data.choices[0].text?.trim() || "";
   const [title, description] = generatedText.split("\n");
 
-  const note = await prisma.note.create({
-    data: {
-      userId: user.id,
-      title: title,
-      description: description,
-    },
-  });
-
-  return NextResponse.json({ note });
+  return NextResponse.json({ title, description });
 }
